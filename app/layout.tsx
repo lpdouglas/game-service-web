@@ -26,10 +26,10 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, "font-sans", inter.variable, notoSansHeading.variable)}
     >
       <body>
-        <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
+        <div className="flex flex-col items-center gap-8 text-xl mt-8">
           <div>
             <h1 className="font-medium">Game Service Hub</h1>
-            < NavigationMenuDemo />
+            <NavigationMenuDemo />
           </div>
           <ThemeProvider>{children}</ThemeProvider>
         </div>

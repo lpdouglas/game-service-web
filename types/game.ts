@@ -1,7 +1,8 @@
 export interface Game {
   code: string
   title: string
-  description: string
+  resume: string
   image: string
   link: string
+  description: string
 }

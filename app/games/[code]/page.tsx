@@ -12,15 +12,20 @@ export default async function Page({ params }: { params: Promise<{ code: string 
 
   return (
     <div>
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <p>Games:</p>
+      <div className="flex flex-col gap-4 text-sm leading-loose">
         <h2>Game Code: {code}</h2>
+        <div className="flex gap-4 w-xl">
         <GameCard
           title={game.title}
-          description={game.description}
+          description={game.resume}
           image={game.image}
           link={game.link}
+          className="w-full"
         />
+        <p className="w-full">
+          {game.description}
+        </p>
+        </div>
         <Button asChild>
           <a href={game.link} target="_blank" rel="noopener noreferrer">
             Get on Steam

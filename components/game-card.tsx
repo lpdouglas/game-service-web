@@ -8,10 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 
-export function GameCard({ title, description, image, link = "" }: { title: string; description: string; image: string; link?: string }) {
+export function GameCard({ title, description, image, link = "" , className = ""}: {
+   title: string; description: string; image: string; link?: string ; className?: string}) {
   return (
-    <Link href={link}>
+    <Link href={link} className={cn(className)}>
     <Card className="relative mx-auto w-full max-w-sm pt-0">
       <div className="absolute inset-0 z-30 aspect-video" />
       <img
