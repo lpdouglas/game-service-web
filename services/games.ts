@@ -1,4 +1,7 @@
 import type { Game } from "@/types/game"
+import { GameParam } from "@/types/game-param"
+
+const api = process.env.GAME_SERVICE || "http://localhost:8080"
 
 const gamesData: Game[] = [
   {
@@ -47,4 +50,14 @@ export async function getGames(): Promise<Game[]> {
 export async function getGameByCode(code: string): Promise<Game | undefined> {
   await new Promise((resolve) => setTimeout(resolve, 0))
   return gamesData.find((game) => game.code === code)
+}
+
+export async function getGameData(code: string): Promise<GameParam[] | undefined> {
+  try{
+  const response = await fetch(`${api}/game-params/${code}`)  
+  return await response.json();
+  } catch (error) {
+    console.error(`Error fetching game data in game-params/${code}.`);
+  }
+  return [];
 }

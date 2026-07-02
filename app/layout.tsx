@@ -4,6 +4,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { NavigationMenuDemo } from "@/components/navbar"
+import { NavBreadcrumb } from "@/components/nav-breadcrumb"
 
 const notoSansHeading = Noto_Sans({ subsets: ['latin'], variable: '--font-heading' })
 
@@ -31,7 +32,10 @@ export default function RootLayout({
             <h1 className="font-medium">Game Service Hub</h1>
             <NavigationMenuDemo />
           </div>
-          <ThemeProvider>{children}</ThemeProvider>
+          <div className="flex flex-col w-xxl gap-8">
+              <NavBreadcrumb/>
+              <ThemeProvider>{children}</ThemeProvider>
+          </div>
         </div>
       </body>
     </html>
