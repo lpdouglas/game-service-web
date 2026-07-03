@@ -53,11 +53,25 @@ export async function getGameByCode(code: string): Promise<Game | undefined> {
 }
 
 export async function getGameData(code: string): Promise<GameParam[] | undefined> {
-  try{
-  const response = await fetch(`${api}/game-params/${code}`)  
-  return await response.json();
+  try {
+    const response = await fetch(`${api}/game-params/${code}`)
+    return await response.json();
   } catch (error) {
     console.error(`Error fetching game data in game-params/${code}.`);
   }
   return [];
+}
+
+export async function postGameData(data: GameParam) {
+  try {
+    await fetch(`${api}/game-params`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+  } catch (error) {
+    console.error(`Error posting game data in game-param: ${data.code}.`);
+  }
 }

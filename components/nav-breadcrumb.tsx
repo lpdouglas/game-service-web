@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { Fragment } from "react"
 import { useSelectedLayoutSegments } from 'next/navigation'
 
 export function NavBreadcrumb() {
@@ -16,16 +17,14 @@ export function NavBreadcrumb() {
         return ( <Breadcrumb>
             <BreadcrumbList>
                 {
-                    segments.slice(0,-1).map((segment, index) => {
-                        return (
-                            [
-                                <BreadcrumbItem key={index}>
-                                    <BreadcrumbLink className="capitalize" href={`/${segments.slice(0, index + 1).join('/')}`}>{segment}</BreadcrumbLink>
-                                </BreadcrumbItem>,
-                                <BreadcrumbSeparator />
-                            ]
-                        );
-                    })
+                    segments.slice(0,-1).map((segment, index) => (
+                        <Fragment key={`${segment}-${index}`}>
+                            <BreadcrumbItem>
+                                <BreadcrumbLink className="capitalize" href={`/${segments.slice(0, index + 1).join('/')}`}>{segment}</BreadcrumbLink>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                        </Fragment>
+                    ))
                 }
 
                 <BreadcrumbItem>

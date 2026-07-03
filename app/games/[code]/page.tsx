@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { GameCard } from "@/components/game-card"
 import { getGameByCode, getGameData as getGameParams } from "@/services/games"
+import { GameDataCrud } from "./game-data-crud"
 
 export default async function Page({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params
@@ -14,7 +15,7 @@ export default async function Page({ params }: { params: Promise<{ code: string 
   return (
     <div>
       <div className="flex flex-col gap-4 text-sm leading-loose">
-        <h2>Game Code: {code}</h2>
+        <h3 className="text-sm italic">Game Code: {code}</h3>
         <div className="flex gap-4 w-xl">
           <div className="w-full flex flex-col items-center">
             <GameCard
@@ -35,8 +36,7 @@ export default async function Page({ params }: { params: Promise<{ code: string 
           </p>
         </div>
         <div className="w-xl">
-          <h1>Parameters</h1>
-          <p>{JSON.stringify(gameParams)}</p>
+          <GameDataCrud code={code} params={gameParams} />
         </div>
       </div>
     </div>
