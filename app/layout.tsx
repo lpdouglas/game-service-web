@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Inter, Noto_Sans } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
-import { NavigationMenuDemo } from "@/components/navbar"
+import { Navbar } from "@/components/navbar"
 import { NavBreadcrumb } from "@/components/nav-breadcrumb"
 
 const notoSansHeading = Noto_Sans({ subsets: ['latin'], variable: '--font-heading' })
@@ -30,7 +30,7 @@ export default function RootLayout({
         <div className="flex flex-col items-center gap-8 text-xl mt-8">
           <div>
             <h1 className="font-medium">Game Service Hub</h1>
-            <NavigationMenuDemo />
+            <Navbar />
           </div>
           <div className="flex flex-col w-xxl gap-8">
               <NavBreadcrumb/>

@@ -1,5 +1,5 @@
 export interface GameParam {
-    code: string,
+    gameCode: string,
     key: string,
     value: string
 }

@@ -18,7 +18,7 @@ const links = [
   { href: "/about", label: "About" },
 ]
 
-export function NavigationMenuDemo() {
+export function Navbar() {
   const pathname = usePathname()
 
   return (

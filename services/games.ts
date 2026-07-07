@@ -1,7 +1,10 @@
+"use server"
+
+import { cookies } from "next/headers";
 import type { Game } from "@/types/game"
 import { GameParam } from "@/types/game-param"
 
-const api = process.env.GAME_SERVICE || "http://localhost:8080"
+const api = process.env.GAME_SERVICE_API_URL ?? "http://localhost:8080";
 
 const gamesData: Game[] = [
   {
@@ -53,25 +56,48 @@ export async function getGameByCode(code: string): Promise<Game | undefined> {
 }
 
 export async function getGameData(code: string): Promise<GameParam[] | undefined> {
-  try {
+  try {          
     const response = await fetch(`${api}/game-params/${code}`)
+    console.log(`Fetched game data for code: ${code}`, response);
     return await response.json();
   } catch (error) {
-    console.error(`Error fetching game data in game-params/${code}.`);
+    console.error(`Error fetching game data in game-params/${code}`);
   }
   return [];
 }
 
 export async function postGameData(data: GameParam) {
   try {
+    const token = (await cookies()).get("access_token")?.value;
+    //console.log(`Posting game data with token: ${token}`);
+
     await fetch(`${api}/game-params`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(data)
     })
   } catch (error) {
-    console.error(`Error posting game data in game-param: ${data.code}.`);
+    console.error(`Error posting game data in game-param: ${data.gameCode}.`);
   }
 }
+
+  export async function postLogin(username: string, password: string) {
+    try {
+      let res = await fetch(`${api}/auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      })
+      let json = await res.json();
+      console.log(`Login response: ${res.status}`, json);
+      return json;
+    } catch (error) {
+      console.error(`Error posting login data.`);
+    }
+  }
+
