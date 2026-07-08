@@ -4,18 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { postGameData } from "@/services/games";
+import { redirect } from "next/navigation";
 
 export function GameDataForm({code}: {code: string}) {
-    return (<form onSubmit={(e) => {
+    return (<form onSubmit={async (e) => {
                 e.preventDefault()
                 const formData = new FormData(e.currentTarget)
                 formData.get("fieldgroup-name");
                 console.log(formData.get("fieldgroup-name"), formData.get("fieldgroup-value"))
-                postGameData({
+                let result = await postGameData({
                     gameCode: code,
                     key: formData.get("fieldgroup-name") as string,
                     value: formData.get("fieldgroup-value") as string
                 })
+                if (result.unauthorized) redirect(`/login?redirect=/games/${code}`);
+                if (result.success) redirect(`/games/${code}`);
             }}>
 
                 <FieldGroup className="grid grid-cols-4">

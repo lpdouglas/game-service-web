@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import type { Game } from "@/types/game"
 import { GameParam } from "@/types/game-param"
+import { ActionResult, errorResult, successResult, unauthorizedResult } from "@/types/action-result";
 
 const api = process.env.GAME_SERVICE_API_URL ?? "http://localhost:8080";
 
@@ -56,7 +57,7 @@ export async function getGameByCode(code: string): Promise<Game | undefined> {
 }
 
 export async function getGameData(code: string): Promise<GameParam[] | undefined> {
-  try {          
+  try {
     const response = await fetch(`${api}/game-params/${code}`)
     console.log(`Fetched game data for code: ${code}`, response);
     return await response.json();
@@ -66,12 +67,12 @@ export async function getGameData(code: string): Promise<GameParam[] | undefined
   return [];
 }
 
-export async function postGameData(data: GameParam) {
+export async function postGameData(data: GameParam): Promise<ActionResult<any>> {
   try {
     const token = (await cookies()).get("access_token")?.value;
     //console.log(`Posting game data with token: ${token}`);
 
-    await fetch(`${api}/game-params`, {
+    let resp = await fetch(`${api}/game-params`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,25 +80,31 @@ export async function postGameData(data: GameParam) {
       },
       body: JSON.stringify(data)
     })
+    console.log(`Posted game data for game code: ${data.gameCode}`, resp.status);
+    return resp.status == 401 || resp.status == 403 ? unauthorizedResult(undefined)
+      : resp.status == 200 ? successResult(null)
+        : errorResult(`Failed to post game data for game code: ${data.gameCode}`, resp.status);
+
   } catch (error) {
     console.error(`Error posting game data in game-param: ${data.gameCode}.`);
+    return errorResult((error as Error).message, (error as { statusCode: number }).statusCode);
   }
 }
 
-  export async function postLogin(username: string, password: string) {
-    try {
-      let res = await fetch(`${api}/auth`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-      })
-      let json = await res.json();
-      console.log(`Login response: ${res.status}`, json);
-      return json;
-    } catch (error) {
-      console.error(`Error posting login data.`);
-    }
+export async function postLogin(username: string, password: string) {
+  try {
+    let res = await fetch(`${api}/auth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    })
+    let json = await res.json();
+    console.log(`Login response: ${res.status}`, json);
+    return json;
+  } catch (error) {
+    console.error(`Error posting login data.`);
   }
+}
 

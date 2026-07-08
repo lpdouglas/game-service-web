@@ -1,11 +1,10 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const LOGIN_API_URL = process.env.GAME_SERVICE_API_URL ?? "http://localhost:8080";
 
-export async function loginAction(formData: FormData) {
+export async function loginAction(formData: FormData): Promise<boolean> {
   const username = String(formData.get("username"));
   const password = String(formData.get("password"));
 
@@ -18,7 +17,7 @@ export async function loginAction(formData: FormData) {
   });
 
   if (!response.ok) {
-    throw new Error("Invalid login");
+    return false;
   }
 
   const data = await response.json();
@@ -36,5 +35,5 @@ export async function loginAction(formData: FormData) {
   const token = (await cookies()).get("access_token")?.value;
   //console.log(`login set token: ${token}`);
 
-  redirect("/");
+  return true;
 }
