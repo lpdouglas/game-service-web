@@ -19,7 +19,10 @@ export default function Page() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const success = await loginAction(formData);
-    if (success) router.replace(redirectTo);
+    if (success) {
+      router.replace(redirectTo);
+      router.refresh();
+    }
     else setLoginError(true);
   }
 

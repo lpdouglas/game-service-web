@@ -1,8 +1,17 @@
-export default function Page() {
+import { getUser } from "@/services/login";
+
+
+export default async function Page() {
+  const user = await getUser();
+
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h2 className="text-4xl font-bold mb-16">Welcome to the Game Service Hub!</h2>
+        {
+        !!user 
+        ? <h2 className="text-4xl font-bold mb-16">Welcome, {user.username}, to the Game Service Hub!</h2>
+        : <h2 className="text-4xl font-bold mb-16">Welcome to the Game Service Hub!</h2>
+        }
         
         <p>
           Here, you can find all what you need to build your dream game!

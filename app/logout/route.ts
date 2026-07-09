@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
   const response = NextResponse.redirect(loginUrl);
 
   response.cookies.delete("access_token");
+  response.cookies.delete("roles");
 
   return response;
 }

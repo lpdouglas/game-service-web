@@ -1,10 +1,12 @@
-import { Geist, Geist_Mono, Inter, Noto_Sans } from "next/font/google"
+import { Geist_Mono, Inter, Noto_Sans } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { Navbar } from "@/components/navbar"
 import { NavBreadcrumb } from "@/components/nav-breadcrumb"
+import { AuthProvider } from "@/components/AuthProvider"
+import { getUser } from "@/services/login"
 
 const notoSansHeading = Noto_Sans({ subsets: ['latin'], variable: '--font-heading' })
 
@@ -15,11 +17,13 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const user = await getUser();
+
   return (
     <html
       lang="en"
@@ -33,8 +37,10 @@ export default function RootLayout({
             <Navbar />
           </div>
           <div className="flex flex-col w-xxl gap-8">
-              <NavBreadcrumb/>
+            <AuthProvider user={user}>
+              <NavBreadcrumb />
               <ThemeProvider>{children}</ThemeProvider>
+            </AuthProvider>
           </div>
         </div>
       </body>

@@ -91,20 +91,4 @@ export async function postGameData(data: GameParam): Promise<ActionResult<any>> 
   }
 }
 
-export async function postLogin(username: string, password: string) {
-  try {
-    let res = await fetch(`${api}/auth`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ username, password })
-    })
-    let json = await res.json();
-    console.log(`Login response: ${res.status}`, json);
-    return json;
-  } catch (error) {
-    console.error(`Error posting login data.`);
-  }
-}
 
