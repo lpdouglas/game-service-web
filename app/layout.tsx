@@ -7,6 +7,7 @@ import { Navbar } from "@/components/navbar"
 import { NavBreadcrumb } from "@/components/nav-breadcrumb"
 import { AuthProvider } from "@/components/AuthProvider"
 import { getUser } from "@/services/login"
+import { LoginoutButton } from "@/components/loginout-button"
 
 const notoSansHeading = Noto_Sans({ subsets: ['latin'], variable: '--font-heading' })
 
@@ -22,7 +23,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const user = await getUser();
+  const user = await getUser() ?? null;
 
   return (
     <html
@@ -34,11 +35,13 @@ export default async function RootLayout({
         <div className="flex flex-col items-center gap-8 text-xl mt-8">
           <div>
             <h1 className="font-medium">Game Service Hub</h1>
+            
             <Navbar />
           </div>
           <div className="flex flex-col w-xxl gap-8">
             <AuthProvider user={user}>
               <NavBreadcrumb />
+              <LoginoutButton />
               <ThemeProvider>{children}</ThemeProvider>
             </AuthProvider>
           </div>
