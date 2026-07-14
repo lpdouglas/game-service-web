@@ -34,7 +34,7 @@ export default async function RootLayout({
       <body>
         <div className="flex flex-col items-center gap-8 text-xl mt-8">
           <div>
-            <h1 className="font-medium">Game Service Hub</h1>
+            <h1 className="font-medium text-center">TGM Soft</h1>
             
             <Navbar />
           </div>
