@@ -20,7 +20,6 @@ export default async function Page() {
           />
         )).slice(0, open)}
       </div>
-      <Button className="w-md">Open All</Button>
     </div>
   )
 }
